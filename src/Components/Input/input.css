@@ -1,0 +1,27 @@
+.defaultInput {
+  display: none;
+}
+
+.btn-load {
+  border: 1px solid goldenrod;
+  text-decoration: none;
+}
+
+.btn:focus,
+.btn:active {
+  outline: none !important;
+  box-shadow: none;
+}
+
+.btn:active {
+  transform: translateY(2px);
+}
+
+.file-info {
+  background: rgb(207, 205, 205);
+  border-radius: 4px;
+}
+
+.name-title {
+  padding: 2px 5px;
+}
