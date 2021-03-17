@@ -1,33 +1,61 @@
 import FileInfoElement from "../FileInfo/FileInfoElement";
 import { useRef, useState } from "react";
+import format from "date-format";
+import XLSX from "xlsx";
 import "./input.css";
+
+console.log("XLSX:", XLSX.version);
 
 const Input = ({ type }) => {
   const inputEl = useRef(null);
   const [fileInfo, setFileInfo] = useState({});
-  const [progress, setProgress] = useState("");
   let fileReader;
 
   const handleFileRead = (evt) => {
-    const content = fileReader.result;
+    const data = fileReader.result;
+    const workbook = XLSX.read(data, {
+      type: "array",
+    });
+    const workingSheet = workbook.SheetNames[0];
 
-    // console.log(content);
+    const dataCTDB = XLSX.utils.sheet_to_json(workbook.Sheets[workingSheet], {
+      header: 1,
+      raw: false,
+    });
+
+    const { Author, CreatedDate, LastAuthor, ModifiedDate } = workbook.Props;
+
+    setFileInfo((prev) => ({
+      ...prev,
+      added: Date.now(),
+      Author,
+      CreatedDate: format("dd/MM/yyyy", CreatedDate),
+      LastAuthor,
+      ModifiedDate: format("dd/MM/yyyy", ModifiedDate),
+    }));
   };
 
   const handleProgress = (e) => {
     const progress = (e.loaded / e.total).toFixed(0) * 100;
-    setProgress(progress);
+    setFileInfo((prev) => ({
+      ...prev,
+      progress,
+    }));
   };
 
-  const isEmptyObj = (obj) => Object.keys(obj).length == 0;
+  const isEmptyObj = (obj) => Object.keys(obj).length === 0;
 
   const openFile = (evt) => {
     fileReader = new FileReader();
-    fileReader.onloadend = handleFileRead;
+    fileReader.onload = handleFileRead;
     fileReader.onprogress = handleProgress;
-    fileReader.readAsText(evt.target.files[0]);
+    fileReader.readAsArrayBuffer(evt.target.files[0]);
     const { size, name } = evt.target.files[0];
-    setFileInfo({ size: size.toFixed(1), name });
+    setFileInfo((prev) => ({
+      ...prev,
+      size: size.toFixed(1),
+      name,
+    }));
   };
 
   const upload = (evt) => {
@@ -51,19 +79,13 @@ const Input = ({ type }) => {
               className="defaultInput"
               multiple={false}
               type="file"
-              accept=".json,.csv,.xls,.xlsx,.txt,.text,application/json,text/csv,text/plain"
+              accept=".json,.xls,.xlsx,.txt,.text,application/json,text/csv,text/plain"
               onChange={(evt) => openFile(evt)}
               ref={inputEl}
             />
           </div>
-          {!isEmptyObj(fileInfo) && (
-            <FileInfoElement
-              name={fileInfo.name}
-              size={fileInfo.size}
-              progress={progress}
-            />
-          )}
         </div>
+        {!isEmptyObj(fileInfo) && <FileInfoElement fileInfo={fileInfo} />}
       </div>
     </>
   );

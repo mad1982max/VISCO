@@ -1,4 +1,5 @@
 import Input from "./Components/Input/Input";
+import Canvas from "./Components/Canvas/Canvas";
 
 import "./App.css";
 
@@ -7,7 +8,7 @@ const App = () => {
     <div className="App">
       <header>VISCO</header>
       <Input type="CTDB" />
-      <Input type="TR" />
+      <Canvas />
     </div>
   );
 };

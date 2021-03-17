@@ -1,0 +1,15 @@
+.file-info {
+  background: rgb(207, 205, 205);
+  border-radius: 4px;
+  font-size: 10px;
+}
+
+.title {
+  padding: 2px 5px;
+  font-size: 10px;
+}
+
+.name {
+  padding: 2px 5px;
+  font-size: 10px;
+}
