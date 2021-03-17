@@ -1,21 +1,14 @@
 import "./fileInfo.css";
 
-const FileInfoElement = ({ fileInfo }) => {
-  const {
-    name,
-    size,
-    progress,
-    Author,
-    CreatedDate,
-    LastAuthor,
-    ModifiedDate,
-  } = fileInfo;
+const FileInfoElement = ({ fileInfo, loaderIsVisible }) => {
+  const { name, size, Author, CreatedDate, ModifiedDate } = fileInfo;
 
-  console.log("date", CreatedDate);
   return (
     <div className="row">
       <div className="col-auto p-1">
-        <div className="file-info p-1">
+        <div className="file-info">
+          {loaderIsVisible && <div className="loader">loading...</div>}
+
           <div className="title-wrapper d-flex align-items-center">
             <div className="title">NAME:</div>
             <div className="name">{name}</div>
@@ -24,10 +17,9 @@ const FileInfoElement = ({ fileInfo }) => {
             <div className="title">SIZE:</div>
             <div className="name">{size} KB</div>
           </div>
-          <div className="loader">{progress} %</div>
 
           <div className="title-wrapper d-flex align-items-center">
-            <div className="title">Author:</div>
+            <div className="title">AUTHOR:</div>
             <div className="name">{Author}</div>
           </div>
 
@@ -40,6 +32,8 @@ const FileInfoElement = ({ fileInfo }) => {
             <div className="title">MODIFIED:</div>
             <div className="name">{ModifiedDate}</div>
           </div>
+
+          <div className="close">&times;</div>
         </div>
       </div>
     </div>

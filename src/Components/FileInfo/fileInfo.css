@@ -1,7 +1,8 @@
 .file-info {
-  background: rgb(207, 205, 205);
+  background: rgb(231, 230, 230);
   border-radius: 4px;
-  font-size: 10px;
+  padding: 20px 5px;
+  position: relative;
 }
 
 .title {
@@ -12,4 +13,30 @@
 .name {
   padding: 2px 5px;
   font-size: 10px;
+}
+
+.close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  background: rgb(238, 55, 55);
+  font-size: 16px;
+  border-radius: 3px;
+  cursor: pointer;
+  color: aliceblue;
+}
+
+.loader {
+  font-size: 10px;
+  color: rgb(226, 238, 53);
+  background: #000;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0 4px;
+  border-radius: 4px;
+  height: 20px;
+  line-height: 20px;
 }

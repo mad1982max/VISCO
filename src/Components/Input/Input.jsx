@@ -9,6 +9,8 @@ console.log("XLSX:", XLSX.version);
 const Input = ({ type }) => {
   const inputEl = useRef(null);
   const [fileInfo, setFileInfo] = useState({});
+  const [loader, setLoader] = useState(true);
+
   let fileReader;
 
   const handleFileRead = (evt) => {
@@ -16,14 +18,10 @@ const Input = ({ type }) => {
     const workbook = XLSX.read(data, {
       type: "array",
     });
-    const workingSheet = workbook.SheetNames[0];
-
-    const dataCTDB = XLSX.utils.sheet_to_json(workbook.Sheets[workingSheet], {
-      header: 1,
-      raw: false,
-    });
 
     const { Author, CreatedDate, LastAuthor, ModifiedDate } = workbook.Props;
+
+    setLoader(false);
 
     setFileInfo((prev) => ({
       ...prev,
@@ -33,24 +31,20 @@ const Input = ({ type }) => {
       LastAuthor,
       ModifiedDate: format("dd/MM/yyyy", ModifiedDate),
     }));
-  };
 
-  const handleProgress = (e) => {
-    const progress = (e.loaded / e.total).toFixed(0) * 100;
-    setFileInfo((prev) => ({
-      ...prev,
-      progress,
-    }));
+    const workingSheet = workbook.SheetNames[0];
+
+    // const dataCTDB = XLSX.utils.sheet_to_json(workbook.Sheets[workingSheet]);
   };
 
   const isEmptyObj = (obj) => Object.keys(obj).length === 0;
 
   const openFile = (evt) => {
     fileReader = new FileReader();
-    fileReader.onload = handleFileRead;
-    fileReader.onprogress = handleProgress;
+    fileReader.onloadend = handleFileRead;
     fileReader.readAsArrayBuffer(evt.target.files[0]);
     const { size, name } = evt.target.files[0];
+
     setFileInfo((prev) => ({
       ...prev,
       size: size.toFixed(1),
@@ -85,7 +79,9 @@ const Input = ({ type }) => {
             />
           </div>
         </div>
-        {!isEmptyObj(fileInfo) && <FileInfoElement fileInfo={fileInfo} />}
+        {!isEmptyObj(fileInfo) && (
+          <FileInfoElement fileInfo={fileInfo} loaderIsVisible={loader} />
+        )}
       </div>
     </>
   );
