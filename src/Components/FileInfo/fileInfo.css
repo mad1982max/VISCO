@@ -1,7 +1,7 @@
 .file-info {
   background: rgb(231, 230, 230);
   border-radius: 4px;
-  padding: 20px 5px;
+  padding: 7px 5px;
   position: relative;
 }
 
@@ -28,15 +28,13 @@
   color: aliceblue;
 }
 
-.loader {
-  font-size: 10px;
+.loader span {
   color: rgb(226, 238, 53);
   background: #000;
-  position: absolute;
-  top: 0;
-  left: 0;
-  padding: 0 4px;
-  border-radius: 4px;
-  height: 20px;
-  line-height: 20px;
+  border-radius: 3px;
+  padding: 0 5px;
+}
+
+.db-name {
+  font-weight: 600;
 }

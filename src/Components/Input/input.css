@@ -16,3 +16,7 @@
 .btn:active {
   transform: translateY(2px);
 }
+
+.dbName {
+  margin: 0 5px;
+}

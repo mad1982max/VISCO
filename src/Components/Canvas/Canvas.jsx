@@ -10,7 +10,9 @@ const Canvas = () => {
   }, []);
 
   return (
-    <canvas id="myChart" ref={canvasRef} width="400" height="400"></canvas>
+    <canvas id="myChart" ref={canvasRef} width="400" height="400">
+      Your browser does not support the canvas element.
+    </canvas>
   );
 };
 
